@@ -131,6 +131,7 @@ update this file (see "Adding new rules").
   narration, exact line numbers). Metadata: `Metadata_3kuwe593.rtf`. Original input kept in
   `/Users/Shared/original`.
 - Project files live in `C:\Users\uttam\OneDrive\Desktop\nvidia\` (scripts, starter guide).
+- Handoff repo (private): https://github.com/uttam12331/odin-handoff - README.md + HANDOFF.md hold the current status; commit SKILL.md changes there.
 
 ## Adding new rules
 When the user (or a screenshot of Studio / Slack / reviewer feedback) gives a new or changed Odin
