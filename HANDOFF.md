@@ -108,3 +108,39 @@ The disputes on all three were rejected, so the task came back as Needs Edits. H
 | pytest `assert 400 == 409` / `500 == 201` | Look for typos: `' isbn'` with a space, `isn` instead of `isbn`, the year in quotes, or the file not saved (dot on the tab) |
 | DB Browser query "shows nothing" | Correct. 0 rows means no duplicates |
 | Bruno 415 error | The Body isn't set to JSON |
+
+## Colleague's new task (in progress)
+
+The colleague works on **their own** Odin account. They have **no OTA account**, so this task
+avoids Google apps.
+
+- **Idea:** HR / recruiting. Build a weighted candidate scorecard, write a shortlist summary and
+  make an interview plan. Target length 15–20 min. Not coding.
+- **Apps (all offline, no login):** ONLYOFFICE (spreadsheet), Obsidian, draw.io.
+  - Use the exact app name Studio's Apps list shows for ONLYOFFICE.
+  - ONLYOFFICE counts as **one** app, so Obsidian and draw.io are still needed to reach 3.
+- **Status:** idea text written, not yet submitted or approved.
+- **Next steps:**
+  1. Submit the idea and fix it if the idea check returns it.
+  2. Write a Gemini prompt for the candidate CSV: 6 fictional people with 1–5 ratings.
+  3. Make the Goal PDF, Metadata.rtf and TaskRecorder text.
+  4. Write a 15–20 min script with what/where/why narration and typing under 20%.
+  5. Practise, record, upload and run AutoQC.
+
+Idea text submitted to Studio:
+
+```
+Domain / Role: HR and recruiting. I am a recruiter shortlisting candidates for a Junior Data Analyst role. The hiring manager wants the top 3 candidates and a plan for first-round interviews.
+
+Goal: I will build a weighted scorecard for 6 candidates, rank them, and prepare the top 3 for interviews. I will decide the weight of each skill based on the role, score every candidate, apply a must-have rule for SQL, write a short shortlist summary explaining each choice, and create an interview plan diagram for the hiring manager.
+
+Starting materials: Using existing material. A CSV file with 6 fictional candidate profiles (name, years of experience, and 1-5 ratings for SQL, spreadsheets, statistics, communication and domain knowledge from the screening call, plus a short note). It was generated with Gemini before recording and contains no real personal data.
+
+Steps (with the apps for each):
+1. ONLYOFFICE: open the candidate CSV as a spreadsheet, add a weights row for the five skills that adds up to 100%, and calculate each candidate's weighted score with SUMPRODUCT.
+2. ONLYOFFICE: flag candidates below the SQL must-have level, rank the eligible candidates with RANK, highlight the top 3 with conditional formatting, filter to show only the shortlist, and save the scorecard as .xlsx.
+3. Obsidian: write a short shortlist summary for the hiring manager with each top-3 candidate's score, strengths, risks and suggested interview focus, and export it as a PDF.
+4. draw.io: create an interview plan diagram showing the order of the three interviews, the interviewer for each and the skill each interview will test, and export it as a PNG.
+
+Deliverable: The scorecard as an .xlsx file, the shortlist summary as a PDF, and the interview plan diagram as a PNG.
+```
