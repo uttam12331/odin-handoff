@@ -1,0 +1,393 @@
+=====================================================================
+ ODIN TASK 3kuwe593 - LIBRARY API VALIDATION - SHORT SCRIPT (~30 MIN)
+ Apps: Visual Studio Code, Bruno, DB Browser for SQLite
+ Everything is done in [REC.MAC]
+ NEW SHORT CODE: about 30 lines to type in total (was ~100)
+=====================================================================
+
+KEEP THIS ON YOUR PHONE OR PAPER - NEVER ON THE MAC SCREEN.
+Say the SAY lines naturally in your own words.
+
+TIME PLAN (about 30 min)
+  0 Intro ................ 0:20     5 Bruno (6 requests) ... 6:00
+  1 Review app.py ........ 2:00     6 DB Browser ........... 2:00
+  2 Add validation ....... 5:00     7 CHANGES.md ........... 1:00
+  3 pytest test .......... 3:00     8 Epilogue ............. 3:00
+  4 Start API ............ 0:30
+
+TYPING FASTER - DO ALL OF THESE
+1. Turn OFF "Screen Reader Optimized" (bottom bar of VS Code -> click
+   it -> No). It blocks autocomplete.
+2. AUTOCOMPLETE: type 2-3 letters, a list pops up, press Tab.
+   e.g. "isb" + Tab -> isbn_ok ; "con" + Tab -> conn ; "jso" -> jsonify
+3. COPY YOUR OWN LINES instead of retyping (normal editing, allowed):
+   the 404 lines (get_book) and the check lines (add_book) are typed
+   once, then pasted into update_book. SAY "I'll copy these lines."
+   Copy = select lines -> Edit -> Copy ; Paste = Edit -> Paste.
+4. PRACTISE TYPING THE CODE 2-3 TIMES before recording. The second
+   time is usually twice as fast.
+
+RULES
+- DO = click   TYPE = code you type   SAY = speak
+- For every click say WHERE it is + WHAT happens after.
+- Pause ~1 s after each click. Point the cursor at what you name.
+- Never silent / typing more than 45 seconds without talking.
+- Say every keyboard shortcut before pressing it.
+- Typo? "I'll fix that typo." Test fails? Read error, explain, fix.
+
+
+=====================================================================
+ !!! NARRATION RULE - WHY THE FIRST RECORDING FAILED !!!
+=====================================================================
+Reviewer: "Code read aloud symbol by symbol has no location (where).
+Edits were not narrated. 58 of 90 actions (64%) - need 70%."
+
+NEVER read code characters: NOT "def isbn underscore ok bracket s"
+                            NOT "quote comma dot join bracket"
+INSTEAD, for EVERY typed block and EVERY click/edit say 3 things:
+   WHAT  - what you are adding/changing, in plain English
+   WHERE - "on line 8 of app.py", "in the Assert tab under the URL"
+   WHY   - the reason ("so QA gets a 400 instead of a crash")
+Say it BEFORE you type (BEFORE line), then while typing describe the
+MEANING in plain words (WHILE TYPING line) - never the symbols.
+Every edit - even fixing a typo - gets a short sentence:
+   "On line 14 I'm correcting the field name, because it was misspelt."
+Silent editing = an action with no narration = counts against you.
+
+
+=====================================================================
+ BEFORE RECORDING  [REC.MAC]
+=====================================================================
+1. /Users/Shared/original has the untouched app.py + requirements.txt.
+2. Desktop/LibraryAPI has ONLY app.py (ORIGINAL - copy it back from
+   /Users/Shared/original) + requirements.txt. Delete practice files:
+   books.db, test_app.py, CHANGES.md, Library API QA folder,
+   __pycache__, .pytest_cache.
+3. VS Code terminal: cd ~/Desktop/LibraryAPI
+                     ~/venvs/analysis/bin/python app.py  -> Ctrl+C
+   (creates books.db) -> right-click terminal -> Clear.
+4. VS Code: app.py open at line 1, terminal open, Screen Reader OFF.
+   Fill. Minimize.
+5. Bruno (no collections) + DB Browser (no database): Fill, minimize.
+6. Task Goal.pdf in Brave (Fill, zoom ~100%), TaskRecorder in front.
+7. TaskRecorder: Goal pasted, Used Apps = Visual Studio Code, Bruno,
+   DB Browser for SQLite.
+8. Clock seconds, Dock on side, Inspector dot, Do Not Disturb (moon),
+   Insightful minimized, wallpaper changed.
+
+
+=====================================================================
+ LINE NUMBERS - HOW THEY WORK
+=====================================================================
+The LINE numbers below are correct ONLY if:
+- app.py is the ORIGINAL file at the start (75 lines, no changes), and
+- you do the steps IN THIS ORDER (2.1 -> 2.7).
+Every step pushes the lines below it down, so the numbers already
+include your earlier additions. The line number is shown on the LEFT
+edge of the VS Code editor.
+After 2.7 app.py has 99 lines and the code is complete.
+
+VS Code auto-indents: after you press Enter it may add spaces. Check
+the first word of each line starts at the same place as in the script.
+Use Delete (backspace) to remove extra spaces.
+
+
+=====================================================================
+ 0. INTRO (0:00 - 0:20)
+=====================================================================
+DO:   Start Recording -> yellow button to minimize TaskRecorder
+SAY:  "I will be beginning my task soon. Here is the workflow I have
+       in mind."
+DO:   Yellow button to minimize Brave
+
+
+=====================================================================
+ 1. REVIEW app.py (0:20 - 2:20)                        VS Code
+=====================================================================
+DO:   Click VS Code in the Dock
+SAY:  "I'm clicking the blue VS Code icon in the Dock on the right.
+       On the left, the Explorer shows the LibraryAPI project, and
+       app.py is open in the centre. The QA team tests against this
+       API, so first I'll check what it accepts."
+DO:   Point at line 10 (CREATE TABLE), then line 40 (get_book's
+      book = dict(...)), then line 46 (add_book's d = request.json)
+SAY:  "Line 10 creates the books table with no UNIQUE rule on isbn,
+       so duplicates can be saved. In get_book, an id that doesn't
+       exist crashes with a 500. add_book and update_book read every
+       field directly, so a missing field also crashes, and nothing
+       checks the ISBN, the year or the pages."
+SAY:  "My rules: all five fields required, a valid ISBN-13 check
+       digit, a year from 1450 to this year, pages at least one. Bad
+       input returns 400, a missing book 404, a duplicate ISBN 409,
+       always as JSON with an 'error' key."
+
+
+=====================================================================
+ 2. ADD VALIDATION (2:20 - 9:00)                       VS Code
+=====================================================================
+---- 2.1 import  -> LINE 3 ----
+DO:   Click the end of LINE 2 -> Enter
+BEFORE: "I'm clicking at the end of line 2 in app.py, after the Flask
+        import, and pressing Enter. On the new line 3 I'm importing
+        date from datetime, because the year rule needs today's year."
+TYPE: from datetime import date
+
+---- 2.2 ISBN check  -> LINES 8-9 ----
+DO:   Click the end of LINE 6 (DB = 'books.db') -> Enter twice
+BEFORE: "Now I'm clicking at the end of line 6, under DB equals
+        books.db, and leaving line 7 empty. On line 8 I'm adding a
+        function called isbn_ok, so the API can reject ISBNs that are
+        mistyped."
+TYPE: def isbn_ok(s):
+          return isinstance(s, str) and len(s) == 13 and s.isdigit() and sum(int(c) * (3 if i % 2 else 1) for i, c in enumerate(s)) % 10 == 0
+WHILE TYPING: "On line 9 it returns true only if the ISBN is a text of
+        exactly thirteen digits... and then it multiplies the digits
+        by one and three alternately and adds them up... a real
+        ISBN-13 always adds up to a multiple of ten, so that catches a
+        wrong check digit."
+
+---- 2.3 check function  -> LINES 11-21 ----
+DO:   End of LINE 9 -> Enter twice -> backspace to the left edge
+BEFORE: "On line 11, at the left edge, I'm creating one function called
+        check. Create and update will both call it, so the rules live
+        in one place and can't drift apart."
+TYPE: def check(d, conn, book_id=0):
+          missing = [f for f in ['title', 'author', 'isbn', 'published_year', 'pages'] if not d.get(f)]
+          if missing:
+              return 'Missing fields: ' + ', '.join(missing), 400
+WHILE TYPING: "Line 12 builds a list of every required field that is
+        missing or empty... lines 13 and 14 return all of them in one
+        message with status 400, so QA sees every problem at once."
+TYPE:     if not isbn_ok(d['isbn']):
+              return 'Invalid ISBN-13', 400
+WHILE TYPING: "Lines 15 and 16 use the ISBN function I just wrote - a
+        bad ISBN is also a 400."
+TYPE:     y, p = d['published_year'], d['pages']
+          if type(y) is not int or type(p) is not int or not 1450 <= y <= date.today().year or p < 1:
+              return 'Invalid year or pages', 400
+WHILE TYPING: "Line 17 takes the year and the pages. Line 18 checks both
+        are whole numbers, the year is between 1450 - when printing
+        began - and this year, and there is at least one page."
+TYPE:     if conn.execute('SELECT 1 FROM books WHERE isbn = ? AND id != ?', (d['isbn'], book_id)).fetchone():
+              return 'ISBN already exists', 409
+WHILE TYPING: "Lines 20 and 21 look in the database for another book
+        with the same ISBN - that's a 409 conflict. The book's own id
+        is excluded, so updating a book doesn't clash with itself."
+
+---- 2.4 get_book  -> LINES 56-57 ----
+DO:   Scroll down -> click the end of LINE 55 -> Enter
+BEFORE: "I'm scrolling down to get_book, which starts on line 53, and
+        clicking at the end of line 55. On line 56 I'm adding a check
+        that the book exists, because right now a wrong id crashes the
+        server with a 500."
+TYPE:     if not conn.execute('SELECT 1 FROM books WHERE id = ?', (id,)).fetchone():
+              return jsonify({'error': 'Book not found'}), 404
+WHILE TYPING: "If no row has this id, line 57 returns Book not found
+        with status 404."
+DO:   Select LINES 56-57 -> Edit -> Copy
+SAY:  "I'm selecting lines 56 and 57 and choosing Copy from the Edit
+        menu at the top, because update needs the same check."
+
+---- 2.5 update_book paste  -> LINES 78-79 ----
+DO:   Scroll down -> end of LINE 77 -> Enter -> Edit -> Paste
+SAY:  "Now I'm scrolling down to update_book on line 75, clicking at
+        the end of line 77 where the connection opens, and pasting
+        from the Edit menu. Lines 78 and 79 now return 404 when the
+        book to update doesn't exist."
+
+---- 2.6 add_book  -> LINES 66-67 ----
+DO:   Scroll up -> end of LINE 65 -> Enter
+BEFORE: "I'm scrolling up to add_book on line 63 and clicking at the end
+        of line 65. On line 66 I'm calling check before the insert, so
+        invalid or duplicate books are never saved."
+TYPE:     if problem := check(d, conn):
+              return jsonify({'error': problem[0]}), problem[1]
+WHILE TYPING: "If check finds a problem, line 67 returns the message as
+        JSON with the status code check chose - 400 or 409."
+DO:   Select LINES 66-67 -> Edit -> Copy
+SAY:  "I'm copying lines 66 and 67 from the Edit menu for update."
+
+---- 2.7 update_book paste  -> LINES 82-83 ----
+DO:   Scroll down -> end of LINE 81 -> Enter -> Edit -> Paste -> edit LINE 82
+SAY:  "In update_book I click at the end of line 81, after the 404
+        check, and paste. On line 82 I'm adding the book's id as the
+        last argument of check, so a book can keep its own ISBN when
+        it's updated."
+DO:   File -> Save
+SAY:  "I'm saving app.py from the File menu at the top. The dot on the
+        app.py tab disappears, so it's saved."
+
+
+=====================================================================
+ 3. PYTEST TEST (9:00 - 12:30)                         VS Code
+=====================================================================
+DO:   Hover LibraryAPI in Explorer -> New File icon -> test_app.py
+SAY:  "In the Explorer on the left I hover over the LibraryAPI folder
+        and click the New File icon, the page with a plus. I name it
+        test_app.py and an empty tab opens in the editor."
+BEFORE: "On line 1 I'm importing the app, and on line 3 I'm defining one
+        valid test book, so every test starts from good data."
+TYPE: import app as api
+
+      GOOD = {'title': 'Test Book', 'author': 'Ana Reyes', 'isbn': '9780306406157', 'published_year': 2020, 'pages': 320}
+WHILE TYPING: "The year and pages are plain numbers, not text, because
+        the rules require whole numbers."
+BEFORE: "On line 5 I'm starting the test function. Lines 6 to 8 point
+        the app at a temporary database, so the test never changes the
+        real books.db."
+TYPE: def test_rules(tmp_path, monkeypatch):
+          monkeypatch.setattr(api, 'DB', str(tmp_path / 'test.db'))
+          api.init_db()
+          c = api.app.test_client()
+BEFORE: "Lines 9 and 10 post the valid book twice - the first must be
+        201 created, the second 409 because the ISBN already exists."
+TYPE:     assert c.post('/books', json=GOOD).status_code == 201
+          assert c.post('/books', json=GOOD).status_code == 409
+BEFORE: "Lines 11 and 12 loop over four broken versions of the book -
+        empty title, wrong check digit, year 3000 and zero pages - and
+        each one must be rejected with 400."
+TYPE:     for bad in [{'title': ''}, {'isbn': '9780306406158'}, {'published_year': 3000}, {'pages': 0}]:
+              assert c.post('/books', json={**GOOD, **bad}).status_code == 400
+DO:   File -> Save -> click inside the Terminal at the bottom
+SAY:  "I'm saving from the File menu and clicking in the terminal at
+        the bottom of VS Code to run pytest in verbose mode."
+TYPE: ~/venvs/analysis/bin/python -m pytest -v
+DO:   Enter -> point at PASSED
+SAY:  "In the terminal, test_rules shows PASSED in green - valid,
+        duplicate and all four invalid cases behave correctly."
+
+
+=====================================================================
+ 4. START THE API (13:20 - 13:50)                      VS Code
+=====================================================================
+TYPE: ~/venvs/analysis/bin/python app.py
+DO:   Enter -> point at "Running on http://127.0.0.1:5000"
+SAY:  "The API runs on port 5000. Now I'll test it like QA, from
+       Bruno." -> yellow button to minimize VS Code
+
+
+=====================================================================
+ 5. BRUNO - 6 REQUESTS (13:50 - 19:50)                 Bruno
+=====================================================================
+DO:   Bruno (orange dog) in the Dock -> + next to Collections ->
+      Create Collection -> Library API QA -> Browse -> Desktop/
+      LibraryAPI -> Create
+SAY:  "In Bruno I click the plus next to Collections on the left and
+       create Library API QA inside the project folder."
+
+1 List books: right-click collection -> New Request -> GET
+  http://127.0.0.1:5000/books -> Assert tab: res.status eq 200 ->
+  yellow Send -> save icon
+  SAY: "I right-click Library API QA in the left sidebar and choose New
+        Request. It's a GET to slash books. Under the URL bar I open
+        the Assert tab, from the double arrow at the end of the tabs,
+        and add res.status equals 200, because listing should work. I
+        click the yellow Send button at the right of the URL - the
+        response panel on the right shows 200 and the eight books."
+
+2 Create valid book: New Request -> POST same URL -> Body tab -> JSON:
+  {"title": "Rivers of Data", "author": "Mira Castell", "isbn": "9781861972712", "published_year": 2019, "pages": 288}
+  Assert eq 201 -> Send -> save
+  SAY: "New request, method POST from the drop-down left of the URL. In
+        the Body tab under the URL I choose JSON and enter a valid
+        book, and in Assert I expect 201 because it should be created.
+        Send - the response on the right says 201 Created, id 9."
+
+3 Duplicate ISBN: right-click "Create valid book" -> Clone -> Assert
+  409 -> Send -> save
+  SAY: "In the left sidebar I right-click Create valid book and choose
+        Clone, so the body is copied. In the Assert tab I change 201 to
+        409, because the same ISBN must be rejected. Send - 409, and
+        the response says 'ISBN already exists'."
+
+4 Missing author: Clone -> delete  "author": "Mira Castell",  ->
+  Assert 400 -> Send -> save
+  SAY: "I clone it again and in the Body tab delete the author, to
+        check required fields. Assert 400. Send - 400, and the response
+        on the right says 'Missing fields: author'."
+
+5 Bad ISBN: Clone -> change the last ISBN digit 2 to 3 -> Assert 400
+  -> Send -> save
+  SAY: "Another clone - in the Body tab I change the last digit of the
+        ISBN from 2 to 3, so the check digit is wrong. Assert 400.
+        Send - 400, 'Invalid ISBN-13'."
+
+6 Missing book: Clone "List books" -> URL /books/999 -> Assert 404 ->
+  Send -> save
+  SAY: "I clone List books and change the end of the URL to 999, an id
+        that doesn't exist. Assert 404. Send - 404 'Book not found',
+        where before this crashed with a 500."
+DO:   Minimize Bruno (yellow button) BEFORE opening the next app
+
+
+=====================================================================
+ 6. DB BROWSER (19:50 - 21:50)                         DB Browser
+=====================================================================
+DO:   DB Browser in Dock -> Open Database (toolbar, 2nd from left) ->
+      Desktop/LibraryAPI/books.db -> Open -> Browse Data tab -> books
+SAY:  "I open books.db. Browse Data shows nine rows - the eight samples
+       and Rivers of Data. None of the invalid requests were saved."
+DO:   Execute SQL tab (4th)
+TYPE: SELECT isbn, COUNT(*) FROM books GROUP BY isbn HAVING COUNT(*) > 1;
+DO:   Play triangle above the SQL box
+SAY:  "Any ISBN used twice? Zero rows - no duplicates."
+DO:   Close Database (red X, top right) -> No -> MINIMIZE DB Browser
+      (yellow button) before opening VS Code - the first recording
+      failed the overlap check because DB Browser stayed open behind
+
+
+=====================================================================
+ 7. CHANGES.md (21:50 - 22:50)                         VS Code
+=====================================================================
+DO:   VS Code -> click in terminal
+SAY:  "I'm pressing Control C to stop the server."
+DO:   Ctrl+C -> New File icon -> CHANGES.md
+TYPE: # API validation changes
+      - Required: title, author, isbn, published_year, pages. Valid ISBN-13, year 1450 to now, pages 1+
+      - Errors as JSON: 400 invalid, 404 book not found, 409 duplicate ISBN
+      - Tests: test_app.py (pytest) and Bruno collection Library API QA
+DO:   File -> Save
+SAY:  "A short note for QA with the rules, error codes and tests."
+
+
+=====================================================================
+ 8. EPILOGUE - 3 MINUTES (22:50 - 26:00)  REQUIRED, MAX 4:00
+=====================================================================
+DO:   Keep ONLY VS Code on screen (Fill). Everything else minimized.
+SAY (checked): "I checked it three ways: a pytest test covering valid,
+     duplicate and four invalid cases on a temporary database, six Bruno requests with status assertions,
+     and DB Browser confirming no duplicate or invalid rows."
+SAY (approach): "I put every rule in one check function that both
+     create and update use, so they can't drift apart, and reused the
+     same 404 check in get and update. One loop in the test covers
+     all four invalid cases."
+SAY (challenges): "The tricky part was duplicates on update - a book
+     must keep its own ISBN, so I pass its own id. And keeping tests
+     off the real database, which the temporary database solves."
+SAY (quality): "Bad input now gets a clear 400, missing books 404,
+     duplicates 409, and no more 500 crashes. CHANGES.md documents it."
+SAY (next time): "Next I'd add a UNIQUE constraint on isbn in the
+     database itself, a 404 check on delete, and length limits on
+     title and author."
+DO:   TaskRecorder in the Dock -> Stop Recording -> wait for Idle
+SAY:  "The task is complete, so I'm stopping the recording."
+
+
+=====================================================================
+ METADATA.RTF  (already made: Metadata_3kuwe593.rtf)
+=====================================================================
+Topology: Visual Studio Code (MODIFY) -> Bruno (CREATE) -> DB Browser for SQLite (LOOKUP) -> Visual Studio Code (CREATE)
+
+
+=====================================================================
+ AFTER RECORDING - DELIVERABLES.ZIP
+=====================================================================
+input 1        <- the ORIGINAL app.py + requirements.txt folder
+                  (/Users/Shared/original)
+final output 1 <- the whole LibraryAPI folder (app.py, test_app.py,
+                  CHANGES.md, books.db, requirements.txt,
+                  Library API QA collection)
+Delete __pycache__ and .pytest_cache before zipping.
+
+Final note in Studio:
+The starting Flask project (input 1) was AI-generated before recording.

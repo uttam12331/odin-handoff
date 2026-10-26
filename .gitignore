@@ -1,0 +1,11 @@
+# never commit recordings, archives, databases, secrets
+*.mp4
+*.mov
+recording_*.zip
+deliverables*.zip
+*.db
+__pycache__/
+.pytest_cache/
+.env
+*password*
+.DS_Store

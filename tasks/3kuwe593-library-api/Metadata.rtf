@@ -1,0 +1,15 @@
+{\rtf1\ansi\ansicpg1252\deff0
+{\fonttbl{\f0\fswiss Helvetica;}}
+\f0\fs24
+{\b Topology:} Visual Studio Code (MODIFY) -> Bruno (CREATE) -> DB Browser for SQLite (LOOKUP) -> Visual Studio Code (CREATE)\par
+\par
+{\b Request:} I will make the API more reliable for the QA team and also add input validation to the create book and update book endpoints. I will validate required fields, ISBN-13 format and checksum ,publication year and page count. I will also make sure the API returns proper JSON error messages with the correct HTTP status codes such as 400, 404, and 409, and write a pytest file containing tests for them.\par
+\par
+{\b Task Description:}\par
+1. In Visual Studio Code, review app.py and define the validation rules and error responses for the library book API.\par
+2. In Visual Studio Code, add ISBN-13 checksum, required-field, publication year and page count validation, and return consistent JSON errors with 400, 404 and 409 status codes.\par
+3. In Visual Studio Code, write a pytest file covering valid, missing-field, bad-ISBN, out-of-range-year, bad page count and duplicate cases, and run it until all tests pass.\par
+4. In Bruno, build a request collection with valid, invalid and duplicate requests and assertions to confirm each status code and error message.\par
+5. In DB Browser for SQLite, open the books table and confirm only valid records were saved and no duplicates exist.\par
+6. In Visual Studio Code, write CHANGES.md documenting the validation rules and error codes for the QA team.\par
+}

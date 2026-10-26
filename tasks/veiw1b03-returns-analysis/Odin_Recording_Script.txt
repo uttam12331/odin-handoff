@@ -1,0 +1,351 @@
+=====================================================================
+ ODIN TASK veiw1b03 - Q3 RETURNS ANALYSIS - RECORDING SCRIPT
+ Apps: DBeaver, Visual Studio Code, Google Sheets (in Brave)
+ Everything is done in [REC.MAC]. Target length: 25-30 min.
+=====================================================================
+
+KEEP THIS ON YOUR PHONE OR PAPER - NEVER ON THE MAC SCREEN.
+Say it in your own words - do not read it word for word.
+
+RULES THE WHOLE TIME
+- Mouse + menus. Pause 1 second after every click.
+- Point the cursor at what you are talking about.
+- Never silent more than 45 seconds.
+- Type in short bursts, then point and explain.
+- No keyboard shortcuts (if you must, say it first).
+- Windows in Fill, not Full Screen. No window covering another more than 25%.
+
+=====================================================================
+ 0. INTRO (0:00 - 0:20)
+=====================================================================
+DO:  Click Start Recording -> minimize TaskRecorder (yellow button)
+DO:  Leave the Goal doc visible 3-4 seconds
+SAY: "I will be beginning my task soon. Here is the workflow I have in mind."
+DO:  Minimize the Goal doc (yellow button)
+
+=====================================================================
+ 1. DBEAVER - LOOK AT THE DATA (0:20 - 2:30)
+=====================================================================
+DO:  Click DBeaver in the Dock
+SAY: "I'm opening DBeaver, where the sales database is connected, to find
+      out why returns went up in Q3."
+
+DO:  Left panel: expand sales.db -> Tables, point at each table
+SAY: "There are four tables: customers with their region, products with
+      category, orders with the date and quantity, and returns with the reason."
+
+DO:  Double-click orders -> Data tab -> scroll a little
+SAY: "Each order links to a product and a customer, so I can join it to
+      category and region."
+DO:  Close the orders tab
+
+=====================================================================
+ 2. DBEAVER - DATA-QUALITY CHECK (2:30 - 5:00)
+=====================================================================
+DO:  Top menu SQL Editor -> New SQL script
+SAY: "Before calculating any rates, I'll check the data quality."
+
+DO:  Type QUERY 1 (in 2 short bursts)
+SAY: "I'm counting total orders, orders with a missing quantity, all return
+      rows, and distinct returned orders."
+
+DO:  Click in the query -> orange Execute button
+DO:  Point at each number
+SAY: "6,000 orders and 15 with missing quantity. A missing quantity doesn't
+      change an order count, so I'll keep those orders. There are 405 return
+      rows but only 395 distinct returned orders, so 10 return records are
+      duplicates. If I counted rows, the return rate would be too high, so
+      I'll count distinct order IDs."
+DO:  Point at 6,000 and 395
+SAY: "I'll use these two totals later to check the notebook."
+
+=====================================================================
+ 3. DBEAVER - MONTHLY RETURN RATES + EXPORT (5:00 - 9:00)
+=====================================================================
+DO:  Press Enter twice -> type QUERY 2 (in 3 bursts)
+SAY: "Now the main query. For each month, category and region I count
+      distinct orders and distinct returned orders. I use a LEFT JOIN to
+      returns so groups with zero returns still appear."
+
+DO:  Click inside Query 2 -> Execute
+SAY: "Running just this query."
+
+DO:  Scroll results, point at Electronics / West rows for July-September
+SAY: "180 rows - 9 months, 5 categories, 4 regions. Electronics in the West
+      already looks higher in the summer months."
+
+DO:  Export data -> Export data... -> CSV -> Next ... to Output page
+SAY: "I'll export this to CSV so I can analyse it in Python."
+DO:  Directory -> Desktop/ReturnsAnalysis
+     File name pattern -> returns_by_month -> Proceed
+SAY: "Saving it in the project folder as returns_by_month."
+
+=====================================================================
+ 4. DBEAVER - Q3 REASONS + EXPORT (9:00 - 11:00)
+=====================================================================
+DO:  Press Enter twice -> type QUERY 3 (in 2-3 bursts)
+SAY: "Next I break down Q3 returns by reason, to explain why returns went
+      up, not just where."
+
+DO:  Execute -> point at the top rows
+SAY: "The top one is Electronics in the West with 13 Defective returns.
+      Apparel in the East and South is mostly Wrong size."
+
+DO:  Export -> CSV -> file name reasons_q3 -> Proceed
+SAY: "Exporting this as reasons_q3 for the summary workbook."
+DO:  Minimize DBeaver
+
+=====================================================================
+ 5. VS CODE - NOTEBOOK SETUP + CLEANING (11:00 - 16:00)
+=====================================================================
+DO:  Click VS Code in the Dock -> point at the 2 CSV files in Explorer
+SAY: "Both exported files are in the project folder."
+
+DO:  Hover ReturnsAnalysis -> click New File icon -> type
+     returns_analysis.ipynb -> Enter
+SAY: "I'm creating a Jupyter notebook for the analysis."
+
+DO:  Top right: Select Kernel -> Python Environments -> Python 3.15
+SAY: "Selecting the Python kernel."
+
+DO:  Type CELL 1 -> click the run button left of the cell
+SAY: "I'm loading pandas, matplotlib and the monthly CSV."
+DO:  Point at the table
+SAY: "Month, category, region, orders and returned orders."
+
+DO:  + Code -> type CELL 2 -> run
+SAY: "Checking column types and missing values."
+DO:  Point
+SAY: "No missing values, and the counts are whole numbers."
+
+DO:  + Code -> type CELL 3 -> run
+SAY: "Removing duplicate rows, converting month to a real date, and
+      calculating the return rate as returned orders divided by orders.
+      Then I print the totals."
+DO:  Point at the 2 printed numbers
+SAY: "6,000 and 395 - these should match DBeaver."
+
+=====================================================================
+ 6. DBEAVER - RECONCILE (16:00 - 17:00)
+=====================================================================
+DO:  Click DBeaver in the Dock -> point at Query 1 result
+SAY: "DBeaver shows 6,000 orders and 395 returned orders - the same as the
+      notebook, so nothing was lost in the export."
+DO:  Minimize DBeaver
+
+=====================================================================
+ 7. VS CODE - Q2 vs Q3, Z-SCORE, CHART (17:00 - 23:00)
+=====================================================================
+DO:  Click VS Code -> + Code -> type CELL 4 (2 bursts) -> run
+SAY: "I keep only Q2 and Q3, add up orders and returns for each category
+      and region, then calculate each quarter's rate and the change. I add
+      the counts before dividing, so small months don't skew the result."
+
+DO:  + Code -> type CELL 5 -> run
+SAY: "To find unusual increases I use a z-score of the change. Anything
+      above 1.5 standard deviations is flagged."
+DO:  Point at top rows
+SAY: "Electronics-West went from 4.3% in Q2 to 14.4% in Q3 - an increase
+      of about 10 points, with a z-score of 2.1. It's the only area above
+      the 1.5 threshold, so it's the clear outlier."
+SAY: "Next are Apparel-East (5.2% to 12.3%), Beauty-North (5.2% to 12.1%)
+      and Apparel-South (4.3% to 10.3%). They rose too, but their z-scores
+      are between 1.0 and 1.3, so I'll treat them as watch items, not
+      outliers."
+
+DO:  + Code -> type CELL 6 (3 bursts) -> run
+SAY: "Now a monthly trend chart comparing Electronics-West with all other
+      areas combined, saved as a PNG for the report."
+DO:  Point at the orange line
+SAY: "All other areas stay steady at around 6 to 8 percent all year."
+DO:  Point at the blue line in July and August
+SAY: "Electronics-West spikes to about 14 percent in July and 20 percent
+      in August, then drops back to about 8 percent in September. That
+      looks like a specific defective batch sold in summer, which
+      operations should confirm."
+DO:  Point at January-February
+SAY: "The early months are zero or jump around because one area only has
+      about 30 orders a month - that's why I compared whole quarters for
+      the z-score instead of single months."
+
+DO:  + Code -> type CELL 7 -> run -> point at the new file in Explorer
+SAY: "Exporting the top five to CSV for Google Sheets."
+
+DO:  File -> Save -> minimize VS Code
+SAY: "Saving the notebook."
+
+=====================================================================
+ 8. GOOGLE SHEETS - SUMMARY TABLE + CHART (23:00 - 28:00)
+=====================================================================
+DO:  Click Brave -> Google Sheets -> Blank spreadsheet
+SAY: "In Google Sheets I'll build the summary for the operations manager."
+DO:  Click the title -> type Q3 Returns Analysis
+
+DO:  File -> Import -> Upload -> Browse -> top5_outliers.csv
+     -> Replace current sheet -> Import data
+SAY: "Importing the top five problem areas."
+DO:  Double-click the sheet tab -> rename to Top 5
+
+DO:  Select q2_rate, q3_rate, change columns -> Format -> Number -> Percent
+SAY: "Showing the rates as percentages."
+
+DO:  Select change column -> Format -> Conditional formatting
+     -> Color scale -> Done
+SAY: "A colour scale highlights the biggest increases."
+
+DO:  Select category to q3_rate -> Insert -> Chart -> Column chart
+SAY: "A column chart compares Q2 and Q3 for each problem area."
+
+DO:  Hand check: in an empty cell type =returned/orders for one row you
+     saw in DBeaver (example =23/128) -> Enter -> point
+SAY: "Checking one rate by hand - it matches."
+
+=====================================================================
+ 9. GOOGLE SHEETS - REASONS + FINDINGS (28:00 - 32:00)
+=====================================================================
+DO:  + (add sheet) -> rename Reasons -> File -> Import -> Upload
+     reasons_q3.csv -> Replace current sheet -> Import data
+SAY: "Adding the Q3 return reasons."
+DO:  Point
+SAY: "Electronics-West is mostly Defective, and Apparel in the East and
+      South is mostly Wrong size."
+
+DO:  + (add sheet) -> rename Findings
+DO:  Type short lines, point after each one:
+     - Q3 return rate rose most in Electronics-West (4.3% -> 14.4%,
+       z = 2.1), main reason Defective. Only flagged outlier.
+     - Apparel-East (5.2% -> 12.3%) and Apparel-South (4.3% -> 10.3%)
+       also rose, main reason Wrong size.
+     - Beauty-North (5.2% -> 12.1%) rose but has mixed reasons - monitor.
+     - Electronics-West peaked in August (about 20%) and fell to about 8%
+       in September - confirm whether a defective batch was pulled.
+     - Recommendation 1: quality check on West electronics stock.
+     - Recommendation 2: review the apparel size guide.
+     - Recommendation 3: monitor returns weekly by category and region.
+
+DO:  Insert -> Image -> Image over cells -> Upload -> return_trend.png
+SAY: "Adding the monthly trend chart."
+
+DO:  Point at each number and compare with the Top 5 sheet
+SAY: "All numbers on the Findings sheet match the summary table."
+
+=====================================================================
+ 10. DOWNLOAD + FINISH (32:00 - 34:00)
+=====================================================================
+DO:  File -> Download -> Microsoft Excel (.xlsx)
+SAY: "Downloading the workbook."
+
+DO:  On the Findings sheet: File -> Download -> PDF
+     -> Export: Current sheet -> Export
+SAY: "And the Findings page as a PDF for the manager."
+
+DO:  Finder -> Downloads -> rename to return_summary.xlsx and
+     findings_report.pdf
+SAY: "Renaming the files clearly."
+
+DO:  Open findings_report.pdf in Brave (NOT Preview) -> point
+SAY: "The PDF is readable, with the chart and recommendations.
+      The task is complete."
+
+DO:  Click TaskRecorder in the Dock -> Stop Recording -> wait for Idle
+SAY: "Everything is saved, so I'm stopping the recording."
+
+
+=====================================================================
+ CODE - PRACTISE THIS BEFORE RECORDING
+=====================================================================
+
+----- QUERY 1 (data-quality check) -----
+SELECT
+  (SELECT COUNT(*) FROM orders) AS total_orders,
+  (SELECT COUNT(*) FROM orders WHERE quantity IS NULL) AS null_quantity,
+  (SELECT COUNT(*) FROM returns) AS return_rows,
+  (SELECT COUNT(DISTINCT order_id) FROM returns) AS returned_orders;
+
+Your result: 6000 | 15 | 405 | 395
+
+----- QUERY 2 (monthly rates -> export returns_by_month) -----
+SELECT strftime('%Y-%m', o.order_date) AS month,
+       p.category,
+       c.region,
+       COUNT(DISTINCT o.order_id) AS orders,
+       COUNT(DISTINCT r.order_id) AS returned_orders
+FROM orders o
+JOIN products p ON p.product_id = o.product_id
+JOIN customers c ON c.customer_id = o.customer_id
+LEFT JOIN returns r ON r.order_id = o.order_id
+GROUP BY month, p.category, c.region
+ORDER BY month, p.category, c.region;
+
+----- QUERY 3 (Q3 reasons -> export reasons_q3) -----
+SELECT p.category, c.region, r.reason,
+       COUNT(DISTINCT r.order_id) AS returns_q3
+FROM returns r
+JOIN orders o ON o.order_id = r.order_id
+JOIN products p ON p.product_id = o.product_id
+JOIN customers c ON c.customer_id = o.customer_id
+WHERE o.order_date BETWEEN '2025-07-01' AND '2025-09-30'
+GROUP BY p.category, c.region, r.reason
+ORDER BY returns_q3 DESC;
+
+----- CELL 1 -----
+import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.read_csv("returns_by_month.csv")
+df.head()
+
+----- CELL 2 -----
+df.info()
+df.isna().sum()
+
+----- CELL 3 -----
+df = df.drop_duplicates()
+df["month"] = pd.to_datetime(df["month"])
+df["return_rate"] = df["returned_orders"] / df["orders"]
+print(df["orders"].sum(), df["returned_orders"].sum())
+
+----- CELL 4 -----
+df["quarter"] = df["month"].dt.quarter
+q = df[df["quarter"].isin([2, 3])]
+q = q.groupby(["category", "region", "quarter"])[["orders", "returned_orders"]].sum()
+q["rate"] = q["returned_orders"] / q["orders"]
+pivot = q["rate"].unstack("quarter")
+pivot.columns = ["q2_rate", "q3_rate"]
+pivot["change"] = pivot["q3_rate"] - pivot["q2_rate"]
+pivot.head()
+
+----- CELL 5 -----
+pivot["z"] = (pivot["change"] - pivot["change"].mean()) / pivot["change"].std()
+pivot["flag"] = pivot["z"] > 1.5
+top5 = pivot.sort_values("z", ascending=False).head(5).round(3)
+top5
+
+----- CELL 6 -----
+ew = (df["category"] == "Electronics") & (df["region"] == "West")
+a = df[ew].groupby("month")[["orders", "returned_orders"]].sum()
+b = df[~ew].groupby("month")[["orders", "returned_orders"]].sum()
+ax = (a["returned_orders"] / a["orders"]).plot(marker="o", label="Electronics-West", figsize=(9, 5))
+(b["returned_orders"] / b["orders"]).plot(marker="o", label="All other areas", ax=ax)
+ax.set_title("Monthly return rate: Electronics-West vs all other areas")
+ax.set_ylabel("Return rate")
+ax.legend()
+plt.savefig("return_trend.png", dpi=150, bbox_inches="tight")
+
+----- CELL 7 -----
+top5.to_csv("top5_outliers.csv")
+
+
+=====================================================================
+ AFTER RECORDING - DELIVERABLES.ZIP NAMES
+=====================================================================
+input 1.db          <- sales.db
+artifact 1.csv      <- returns_by_month.csv
+artifact 2.csv      <- reasons_q3.csv
+artifact 3.ipynb    <- returns_analysis.ipynb
+artifact 4.png      <- return_trend.png
+artifact 5.csv      <- top5_outliers.csv
+final output 1.xlsx <- return_summary.xlsx
+final output 2.pdf  <- findings_report.pdf
+
+Final note in Studio:
+sales.db (input 1) was AI-generated before recording.

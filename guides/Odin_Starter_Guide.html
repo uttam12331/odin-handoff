@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Odin Starter Guide</title>
+<style>
+:root { --bg:#ffffff; --fg:#1d1d1f; --muted:#6e6e73; --line:#e3e3e8; --card:#f6f7f9;
+        --accent:#4b3fd1; --ok:#0a7d32; --okbg:#e8f7ed; --bad:#b42318; --badbg:#fdecea; --warnbg:#fff6e0; --warn:#8a5a00; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg:#111214; --fg:#ececec; --muted:#9a9aa0; --line:#2a2b2f; --card:#1a1b1e;
+  --accent:#a99dff; --ok:#5fe08a; --okbg:#12301d; --bad:#ff8a80; --badbg:#3a1714; --warnbg:#33290f; --warn:#ffd27a; } }
+:root[data-theme="dark"] { --bg:#111214; --fg:#ececec; --muted:#9a9aa0; --line:#2a2b2f; --card:#1a1b1e;
+  --accent:#a99dff; --ok:#5fe08a; --okbg:#12301d; --bad:#ff8a80; --badbg:#3a1714; --warnbg:#33290f; --warn:#ffd27a; }
+* { box-sizing:border-box; }
+body { background:var(--bg); color:var(--fg); font:16px/1.55 -apple-system, system-ui, "Segoe UI", sans-serif;
+       margin:0 auto; max-width:860px; padding:16px 16px 64px; }
+h1 { font-size:26px; margin:8px 0 4px; }
+h2 { font-size:20px; margin:32px 0 10px; padding-top:8px; border-top:2px solid var(--line); color:var(--accent); }
+h3 { font-size:16px; margin:18px 0 6px; }
+p.sub { color:var(--muted); margin:0 0 16px; }
+.toc { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 14px; }
+.toc a { color:var(--accent); text-decoration:none; }
+.toc ol { margin:6px 0; padding-left:20px; }
+table { width:100%; border-collapse:collapse; margin:8px 0; font-size:15px; }
+th, td { border:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:top; }
+th { background:var(--card); }
+.wrap { overflow-x:auto; }
+.ok { background:var(--okbg); border-left:4px solid var(--ok); padding:8px 12px; border-radius:6px; margin:8px 0; }
+.bad { background:var(--badbg); border-left:4px solid var(--bad); padding:8px 12px; border-radius:6px; margin:8px 0; }
+.warn { background:var(--warnbg); border-left:4px solid var(--warn); padding:8px 12px; border-radius:6px; margin:8px 0; }
+code, .mono { font-family:ui-monospace, Menlo, Consolas, monospace; font-size:14px; background:var(--card);
+       padding:1px 5px; border-radius:4px; overflow-wrap:anywhere; }
+pre { background:var(--card); border:1px solid var(--line); padding:10px; border-radius:8px; overflow-x:auto;
+      font-family:ui-monospace, Menlo, monospace; font-size:13px; white-space:pre-wrap; }
+.tag { display:inline-block; font-size:12px; font-weight:700; padding:1px 7px; border-radius:10px;
+       background:var(--accent); color:var(--bg); margin-right:4px; }
+.say { color:var(--ok); font-weight:600; }
+.screen { display:grid; grid-template-columns: 1fr 12fr 1fr; gap:4px; border:2px solid var(--line); border-radius:8px;
+          padding:4px; font-size:12px; text-align:center; margin:8px 0; }
+.screen .bar { grid-column:1 / -1; background:var(--card); padding:3px; border-radius:4px; }
+.screen .dock { background:var(--accent); color:var(--bg); padding:4px; border-radius:4px; writing-mode:vertical-rl; }
+.screen .win { background:var(--okbg); padding:30px 4px; border-radius:4px; display:flex; align-items:center; justify-content:center; }
+.screen .split { display:grid; grid-template-columns:1fr 1fr; gap:4px; }
+.screen .split div { background:var(--okbg); padding:30px 4px; border-radius:4px; }
+li { margin:3px 0; }
+</style>
+</head>
+<body>
+
+<h1>Project Odin: Starter Guide</h1>
+<p class="sub">Timer, Mac setup, and how to record a task. Based on the Writer Guidelines (Oct 2026) and the current Studio task page. If Studio says something different, Studio wins.</p>
+
+<div class="toc"><b>Contents</b>
+<ol>
+<li><a href="#accounts">Accounts: use your own</a></li>
+<li><a href="#timer">Insightful timer and pay</a></li>
+<li><a href="#setup">One-time Mac setup</a></li>
+<li><a href="#flow">The task workflow (start to finish)</a></li>
+<li><a href="#screen">How the screen must look while recording</a></li>
+<li><a href="#record">Recording: step by step</a></li>
+<li><a href="#narrate">How to narrate</a></li>
+<li><a href="#after">After recording: files and submit</a></li>
+<li><a href="#apps">Apps: allowed and banned</a></li>
+<li><a href="#mistakes">Common mistakes</a></li>
+</ol></div>
+
+<!-- ============================================================ -->
+<h2 id="accounts">1. Accounts: use your own</h2>
+<div class="bad"><b>Never share accounts.</b> Each writer uses their own Mercor/Okta login, OTA account, Insightful and Studio tasks. Work recorded on someone else's account can be rejected.</div>
+<div class="wrap"><table>
+<tr><th>Account</th><th>Used for</th><th>Never use it for</th></tr>
+<tr><td><b>Personal email</b></td><td>Okta sign-in, Odin dashboard</td><td>Anything shown in a recording</td></tr>
+<tr><td><b>@mercor.expert</b></td><td>Studio, Writer Guidelines, <b>Insightful</b></td><td>TaskRecorder, apps in the recording</td></tr>
+<tr><td><b>OTA</b> (task.recording.xxx@gmail.com)</td><td>Logins <b>inside the recording</b> (Google Sheets, Gmail, etc.)</td><td>Changing its password, adding 2FA or a phone number</td></tr>
+</table></div>
+<p>OTA password problems? Ask <b>@Maven</b> in <b>#odin--helpdesk</b>. Keep the message short (it's public) and <b>never post a password</b>.</p>
+
+<!-- ============================================================ -->
+<h2 id="timer">2. Insightful timer and pay</h2>
+<h3>How to run the timer</h3>
+<ol>
+<li>Open <b>Insightful</b> (also called Workpuls) → sign in with your <b>@mercor.expert</b> account.</li>
+<li>Find <b>Odin</b> in the project list → press <b>Play ▶</b>. Check that the time counts up.</li>
+<li><b>Minimize</b> it to the Dock (yellow button). <b>Never open its window during a recording.</b></li>
+<li>Press <b>Stop / Pause</b> for breaks and when you finish for the day.</li>
+</ol>
+<div class="ok"><b>Run it for all real Odin work:</b> reading the guide, setup, idea writing, preparing inputs, practice, recording, re-takes, uploading and submitting.<br>
+<b>Don't run it:</b> during breaks, idle time or non-Odin work.</div>
+<p>If you record in a separate Mac user (recommended, see below), start Insightful in <b>that</b> user too.</p>
+
+<h3>How pay works (from 21 Oct 2026)</h3>
+<div class="wrap"><table>
+<tr><th>Stage</th><th>Pay</th></tr>
+<tr><td><b>Onboarding / setup</b></td><td>Up to <b>3 hours</b> at your base hourly rate (one-time total)</td></tr>
+<tr><td><b>First task</b></td><td>Not hourly. <b>$150</b> when first submitted + <b>$250</b> when it reaches <b>Ready for Delivery (RFD)</b></td></tr>
+<tr><td><b>Trial</b></td><td>Hourly at base rate. Starts with <b>12 hours</b>; each task that reaches RFD adds <b>3 hours</b>. After <b>3 tasks reach RFD</b> → Production</td></tr>
+<tr><td><b>Production</b></td><td>Hourly by tier: Throttled 1×, Writer 1.375×, Super Writer 1.875× base rate, with weekly hour caps</td></tr>
+</table></div>
+<p>Hourly pay is sent on <b>Wednesday</b> for the previous Saturday–Friday. Keep no more than <b>3 open tasks</b> in Trial. Pay questions → Maven in #odin--helpdesk.</p>
+
+<!-- ============================================================ -->
+<h2 id="setup">3. One-time Mac setup</h2>
+<p><b>Needs:</b> Mac with <b>Apple Silicon (M1 or newer)</b> or Intel (use the Intel TaskRecorder build), <b>macOS 15+</b>, <b>35 GB+ free</b>, plugged into power.</p>
+
+<h3>3.1 Separate recording user (recommended)</h3>
+<p>Studio now says a separate user isn't required, but it's the easiest way to keep personal info off screen.</p>
+<ol>
+<li>System Settings → Users &amp; Groups → <b>Add User</b> → <b>Administrator</b>, neutral name like <code>Recorder</code>.</li>
+<li>Log in to it, skip iCloud, keep the language <b>English</b>.</li>
+<li>Keep <b>Studio, Slack, the guidelines and Metadata.rtf</b> in your <b>main</b> user. Record in the <b>Recorder</b> user.</li>
+<li>To move files between users, use the shared folder: Finder → <b>Go → Go to Folder</b> → <code>/Users/Shared</code>.</li>
+</ol>
+
+<h3>3.2 Clock, Dock and look (in the recording user)</h3>
+<ul>
+<li><b>Clock:</b> System Settings → Menu Bar → Clock Options → turn on <b>Display the time with seconds</b> + show the date.</li>
+<li><b>Dock:</b> System Settings → Desktop &amp; Dock → Position <b>Left or Right</b> (never Bottom), <b>Automatically hide OFF</b>, <b>Show indicators for open apps ON</b>.</li>
+<li><b>Wallpaper:</b> not personal and <b>not the macOS default</b>.</li>
+<li><b>Do Not Disturb</b> on. Remove desktop widgets. Clear personal files off the Desktop.</li>
+<li><b>Mouse cursor:</b> keep the default size and colour.</li>
+</ul>
+
+<h3>3.3 Accessibility Inspector (must run in every recording)</h3>
+<ol>
+<li>Install <b>Xcode</b> from the App Store.</li>
+<li>Open Xcode → right-click Xcode in the Dock → <b>Open Developer Tool → Accessibility Inspector</b>.</li>
+<li>Close its window with the <b>red</b> button (don't quit, don't minimize). A <b>dot</b> must stay under its blue magnifying-glass icon in the Dock. You can quit Xcode.</li>
+</ol>
+
+<h3>3.4 TaskRecorder 2.4.4</h3>
+<ol>
+<li>Download <b>TaskRecorder2.4.4.dmg</b> from <b>World files</b> on any Studio task.</li>
+<li>Open it → drag TaskRecorder into <b>Applications</b> → <b>Replace</b> if asked.</li>
+<li>Open it. If blocked: System Settings → Privacy &amp; Security → <b>Open Anyway</b>.</li>
+<li>Turn on <b>Accessibility, Screen Recording, Microphone</b> until all 3 are <b>green</b>. If one stays red: remove TaskRecorder from that Privacy list with <b>–</b>, add it again with <b>+</b>, then quit and reopen.</li>
+<li>Choose the <b>built-in display</b> and mic <b>Standard</b> mode. Speak and check the meter goes <b>green</b>.</li>
+</ol>
+<div class="warn">2.4.4 needs <b>no login</b>. If it asks you to sign in or for a password, you still have an old version.</div>
+
+<!-- ============================================================ -->
+<h2 id="flow">4. The task workflow (start to finish)</h2>
+<ol>
+<li><b>Idea</b>: Studio → Tasks → <b>+ Create Task</b>. Fill <b>Describe your idea</b> with 5 headings: <b>Domain/Role, Goal, Starting materials, Steps (with the app for each step), Deliverable</b>. Add the <b>Apps</b> (at least 3; 1–2 only for deeply technical work). <b>Save Changes → Submit idea</b>.</li>
+<li><b>Idea check</b>: wait about 1 minute. If it's sent back, read the report, fix it, then <b>Resubmit</b>. The usual reason is that the apps named in the text don't match the Apps list.</li>
+<li><b>Approved</b>: the <b>same task</b> becomes "Idea Approved: Start Recording". Don't create a second task.</li>
+<li><b>Inputs</b>: prepare any starting files <b>before</b> recording. AI-made inputs must come from <b>Gemini only</b>, with no real personal data and only CC0/public-domain media.</li>
+<li><b>Goal document</b>: if Studio's Intro doc is empty, paste the approved <b>Goal</b> into a doc → download as <b>PDF</b> → open it in <b>Brave</b> at the start of the recording.</li>
+<li><b>Metadata.rtf</b> (main user only): download the template from the task and fill in <b>Topology</b> (e.g. <code>VS Code (MODIFY) -&gt; Bruno (CREATE) -&gt; DB Browser (LOOKUP)</code>), <b>Request</b> (the Goal, word for word) and <b>Task Description</b> (a numbered list). Delete the red example section. TextEdit is allowed <b>only</b> for this file.</li>
+<li><b>Practise</b> the whole task once without recording, then <b>reset</b> everything to the start.</li>
+<li><b>Record</b> (section 6) → <b>check</b> → <b>upload and submit</b> (section 8).</li>
+</ol>
+
+<!-- ============================================================ -->
+<h2 id="screen">5. How the screen must look while recording</h2>
+
+<h3>Windows: the "how much" rules</h3>
+<div class="wrap"><table>
+<tr><th>Rule</th><th>What it means</th></tr>
+<tr><td><b>Use Fill, not Full Screen</b></td><td>Hover over the <b>green button</b> (top-left of a window) → <b>Fill</b>. The window fills the screen but the <b>menu bar, clock and Dock stay visible</b>. Full Screen (or full-screen Split View) hides them, so <b>never use it</b>.</td></tr>
+<tr><td><b>One window, or two side by side</b></td><td>Either <b>one</b> task window at <b>100%</b> (Fill), or <b>two</b> windows at about <b>50% / 50%</b> (green button → Move &amp; Resize → Left &amp; Right).</td></tr>
+<tr><td><b>Overlap under ~25%</b></td><td>No task window may be covered by another window by more than about <b>25%</b>. Minimize what you're not using. A pop-up or dialog from the <b>same app</b> may overlap while you use it.</td></tr>
+<tr><td><b>No small floating windows</b></td><td>Don't leave a small window in the middle of an empty desktop. Make windows large and readable.</td></tr>
+</table></div>
+
+<p><b>Good layout A: one app (Fill)</b></p>
+<div class="screen"><div class="bar">menu bar + clock with seconds (visible)</div><div></div><div class="win">ONE task window: Fill (about 100%)</div><div class="dock">Dock</div></div>
+
+<p><b>Good layout B: two apps side by side</b></p>
+<div class="screen"><div class="bar">menu bar + clock with seconds (visible)</div><div></div><div class="split"><div>App 1 (~50%)</div><div>App 2 (~50%)</div></div><div class="dock">Dock</div></div>
+
+<h3>Must be visible / must be hidden</h3>
+<div class="wrap"><table>
+<tr><th>✅ Must be visible</th><th>❌ Must never appear</th></tr>
+<tr><td>
+Menu-bar clock with <b>seconds</b><br>
+<b>Dock</b> on the left or right<br>
+Accessibility Inspector icon <b>with its dot</b><br>
+The Goal document at the start (a few seconds)
+</td><td>
+TaskRecorder window (except Start and Stop)<br>
+Insightful window<br>
+Studio, Slack, Odin or Mercor pages, Metadata.rtf<br>
+Personal email, name, files, notifications<br>
+Any AI (ChatGPT, Gemini, Copilot, AI chat panels)<br>
+Restricted apps
+</td></tr>
+</table></div>
+
+<!-- ============================================================ -->
+<h2 id="record">6. Recording: step by step</h2>
+<h3>Before pressing Start</h3>
+<ol>
+<li>Insightful running and minimized. Mac plugged in. Do Not Disturb on. Quiet room.</li>
+<li>Change at least <b>one</b> UI element from your last recording: wallpaper, light/dark mode, accent colour, Dock size or similar.</li>
+<li>Accessibility Inspector dot visible.</li>
+<li>Open every task app, log in, load the files, set each window to <b>Fill</b>, then <b>minimize</b> them all. <b>Don't do any task work yet.</b></li>
+<li>Quit everything else: chats, Slack, extra browser tabs, Terminal, Messages.</li>
+<li>Open the <b>Goal PDF</b> in Brave (Fill). It should be the <b>only</b> window, behind TaskRecorder.</li>
+<li>TaskRecorder: paste the <b>Goal</b> (exactly as approved) into Task Description, add every task app under <b>Used Apps</b>, check that all 3 permissions are green and the mic meter moves.</li>
+</ol>
+
+<h3>During</h3>
+<ol>
+<li>Click <b>Start Recording</b> → immediately <b>minimize TaskRecorder</b> (yellow button).</li>
+<li>With the Goal doc visible, say only: <span class="say">"I will be beginning my task soon. Here is the workflow I have in mind."</span> Keep the intro <b>under 20 seconds</b>. Don't read the Goal aloud.</li>
+<li>Minimize the Goal doc → open your first app from the Dock → do the task <b>in one take</b>. There is no pause button.</li>
+<li>Small mistake? Say what went wrong, fix it, check it and carry on. Big mistake? Stop and re-record.</li>
+<li>Save every output.</li>
+<li><b>Epilogue, 3–4 minutes (max 4:00):</b> how you checked the result, your approach, challenges, quality, and what you'd do differently. Required for ideas approved on or after 19 Oct.</li>
+<li>Click TaskRecorder in the Dock → <b>Stop Recording</b> → <b>don't quit</b>. Wait for <b>Stopping → Archiving → Idle</b>.</li>
+</ol>
+
+<div class="wrap"><table>
+<tr><th>Limit</th><th>Value</th></tr>
+<tr><td>Recording length (with intro and epilogue)</td><td><b>15:00 – 50:59</b></td></tr>
+<tr><td>Intro</td><td>under <b>20 s</b></td></tr>
+<tr><td>Epilogue</td><td><b>3–4 min</b> (max 4:00)</td></tr>
+<tr><td>Silence</td><td>never more than <b>45 s</b></td></tr>
+<tr><td>Mouse idle</td><td>keep moving; avoid long still stretches</td></tr>
+<tr><td>Pause after each click</td><td>about <b>1 s</b></td></tr>
+<tr><td>Typing</td><td>up to <b>20%</b> of the video (<b>~30%</b> for coding tasks); no single typing stretch over 45 s</td></tr>
+<tr><td>Screenshots (check afterwards)</td><td>more than <b>0.5 per second</b> of video</td></tr>
+</table></div>
+
+<!-- ============================================================ -->
+<h2 id="narrate">7. How to narrate</h2>
+<p>Talk so that someone with their <b>eyes closed</b> could follow. Priority order: <b>WHAT</b> you do → <b>WHERE</b> it is on screen → <b>WHY</b> (when it explains a decision).</p>
+<div class="ok"><b>Good:</b> <span class="say">"I'm moving to the Dock on the right side and clicking the blue VS Code icon. In the File menu at the top, next to the word Code, I click Save. The dot on the tab disappears, so it's saved."</span></div>
+<div class="bad"><b>Bad:</b> "I'll click this here and fix that."</div>
+<ul>
+<li>For every click, say <b>where it is</b> (corner, side, next to what), <b>what it's called</b>, and <b>what happens after</b> ("a menu appears", "it turns blue").</li>
+<li><b>Point the cursor</b> at whatever you're talking about.</li>
+<li><b>Say every keyboard shortcut before you press it</b> ("I'm pressing Command S to save").</li>
+<li>While typing, say what you're writing and stop every few lines to explain it.</li>
+<li>100% English. No profanity. No personal information said aloud.</li>
+<li>Don't read a script word for word. Practise until you can say it naturally.</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2 id="after">8. After recording: files and submit</h2>
+<ol>
+<li>TaskRecorder → <b>Show Recordings</b> → open the newest <code>recording_TIMESTAMP</code> folder.</li>
+<li>Play <b>video.mp4</b> in QuickTime: check the start, middle and end for a clear picture and audible voice.</li>
+<li>Count the PNGs in <code>screenshots</code> (Finder → View → Show Status Bar shows "N items"). You need <b>more than 0.5 × video seconds</b>. Count every PNG in that folder.</li>
+<li>Make <b>deliverables.zip</b>. Name each file by what it is and keep the extensions:
+<pre>input 1, input 2 ...          starting files you prepared
+artifact 1, artifact 2 ...    in-between files made during the task
+final output 1, final output 2 ...   the finished results
+(for a code project: put the whole project in a folder named "final output 1")</pre></li>
+<li>Copy <b>deliverables.zip, recording_TIMESTAMP.zip (unchanged) and video.mp4</b> to <code>/Users/Shared</code>, then switch to the main user.</li>
+<li>Studio → your task → upload the <b>4 files</b>, each in its own field: <b>Metadata.rtf, video.mp4, recording zip, deliverables.zip</b>. <b>Metadata.rtf never goes inside the zip.</b></li>
+<li>Run <b>AutoQC 1 (Files &amp; Recording)</b> and <b>AutoQC 2 (Narration)</b>. Fix or dispute Major flags. Minor flags are advice only.</li>
+<li>Tick the <b>manual checks</b> only after really checking the video, tick the confirmation boxes, and add a <b>Final note</b> (e.g. <code>Input 1 was AI-generated before recording.</code>).</li>
+<li>Click <b>Submit for Review</b> → status becomes <b>Ready for Review</b>. Watch for feedback in My tasks.</li>
+</ol>
+
+<!-- ============================================================ -->
+<h2 id="apps">9. Apps: allowed and banned</h2>
+<ul>
+<li>Check every app in the Apps list on the task, and on the <b>validated-apps</b> page linked there. Anything marked <b>🚫 RESTRICTED</b> cannot appear at all, not even briefly.</li>
+<li><b>Banned examples:</b> Excel (use Google Sheets instead), Keynote, Pages, Numbers, Preview, Terminal app, iMovie, Final Cut Pro, Logic Pro, Calendar, Reminders, LibreOffice Calc/Writer/Impress, Adobe Acrobat. <b>TextEdit</b> only for Metadata.rtf.</li>
+<li><b>Now allowed</b> (since 22 Oct): Safari and Chrome. Other browsers such as Brave or Firefox are still preferred.</li>
+<li>Finder, the Goal document app and Insightful <b>don't count</b> as task apps.</li>
+<li>No AI features during recording. Turn off Copilot and AI chat panels in apps like VS Code and DBeaver. Normal autocomplete is fine.</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2 id="mistakes">10. Common mistakes</h2>
+<div class="wrap"><table>
+<tr><th>Mistake</th><th>Fix</th></tr>
+<tr><td>Text in the idea names apps that aren't in the Apps list</td><td>Keep the idea text and the Apps list exactly the same</td></tr>
+<tr><td>Full Screen used, so the clock and Dock are hidden</td><td>Use green button → <b>Fill</b></td></tr>
+<tr><td>Dock at the bottom, or the clock without seconds</td><td>Fix it in System Settings before recording</td></tr>
+<tr><td>Accessibility Inspector not running</td><td>Check the dot under its Dock icon</td></tr>
+<tr><td>Goal not shown at the start, or a long intro</td><td>Show the Goal PDF, say one sentence, keep it under 20 s</td></tr>
+<tr><td>Silent typing or a silent gap over 45 s</td><td>Keep talking: say what you're doing and where</td></tr>
+<tr><td>Studio, Slack, Insightful or Metadata visible</td><td>Close or minimize them before Start</td></tr>
+<tr><td>Personal account visible</td><td>Stop and re-record; use the OTA only</td></tr>
+<tr><td>Goal in TaskRecorder differs from Studio / Metadata Request</td><td>Paste the exact same approved Goal in all three</td></tr>
+<tr><td>Missing epilogue</td><td>3–4 minute wrap-up before Stop</td></tr>
+<tr><td>Inputs made with another AI (not Gemini), or a real person's data</td><td>Use Gemini only and fictional data</td></tr>
+</table></div>
+
+<p class="sub" style="margin-top:24px">Help: ask <b>@Loki</b> in your domain Loki channel first; account, pay or OTA issues go to <b>@Maven</b> in <b>#odin--helpdesk</b>; ideas go to <b>#odin--ideation</b>.</p>
+</body>
+</html>
