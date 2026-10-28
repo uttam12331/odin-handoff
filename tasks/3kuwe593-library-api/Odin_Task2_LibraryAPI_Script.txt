@@ -273,77 +273,158 @@ DO:   Click the yellow button to minimize VS Code.
 =====================================================================
  5. BRUNO - 9 REQUESTS  (12:20 - 20:20)                     Bruno
 =====================================================================
-DO:   Click the Bruno icon (orange dog) in the Dock. Click the plus
-      next to Collections, choose Create Collection, type
-      Library API QA, click Browse, choose Desktop > LibraryAPI,
-      then Create.
+BEFORE YOU START THIS SECTION - CHECK
+- The API is running: the VS Code terminal shows "Running on
+  http://127.0.0.1:5000". Bruno can't reach it otherwise ("connection
+  refused").
+- books.db is FRESH (8 books). Otherwise the new book will not be id 9
+  and request 2 gets 409 instead of 201.
+- Every URL starts with  http://  NOT https://  (https gives an SSL
+  error).
+
+BRUNO SCREEN - WHERE THINGS ARE
+- Left sidebar: "Collections" with a + icon, your collection below it.
+- Top of a request: the METHOD drop-down (GET/POST/PUT) on the left,
+  the URL box in the middle, the yellow SEND button on the right.
+- Under the URL: a row of tabs  Params - Body - Headers - Auth - >>.
+  Assert is hidden behind >> when the window is narrow.
+- Right half: the RESPONSE panel. The status (e.g. 201 Created) is at
+  its top, the JSON response below it.
+
+---- CREATE THE COLLECTION --------------------------------------------
+DO:   Click the Bruno icon (orange dog) in the Dock.
+DO:   Click the + next to "Collections" (top of the left sidebar) >
+      Create Collection.
+DO:   Name: Library API QA. Location: click Browse > Desktop >
+      LibraryAPI > Open. Click Create.
 SAY:  "In Bruno I click the plus next to Collections at the top of the
        left sidebar and create a collection called Library API QA. I
-       save it inside the project folder, so it is delivered with the
-       code."
+       save it inside the LibraryAPI project folder, so the tests are
+       delivered with the code."
 
-HOW EACH REQUEST IS MADE
-- New request: right-click Library API QA > New Request > HTTP.
-- Clone: right-click an existing request > Clone, then rename it.
-- Body: the Body tab under the URL bar, set to JSON.
-- Assert: the Assert tab (click >> at the end of the tabs if hidden),
-  then res.status, eq, and the expected code.
-- Send: the yellow button at the right end of the URL bar.
-- Save: the save icon just left of Send.
+---- REQUEST 1: List books -------------------------------------------
+DO:   Right-click "Library API QA" in the sidebar > New Request.
+      In the dialog: Type HTTP, Name  List books , method GET,
+      URL  http://127.0.0.1:5000/books  > Create.
+DO:   Under the URL click >> > Assert. In the empty row type:
+      Expr  res.status   Operator  eq   Value  200
+DO:   Click Send. Then click the save icon (left of Send).
+SAY:  "I right-click the collection and choose New Request. It's a GET
+       request to slash books, called List books. Under the URL I open
+       the Assert tab from the double arrow and add: res dot status
+       equals 200, because listing books should always work. I click
+       Send. On the right the response shows 200 OK and the eight
+       sample books. I save the request with the save icon."
 
-REQUEST 1  List books  (new, GET, http://127.0.0.1:5000/books, 200)
-SAY:  "I right-click the collection in the sidebar and choose New
-       Request. It's a GET to slash books. In the Assert tab under the
-       URL I add: status equals 200, because listing should always
-       work. I click Send. The response panel on the right shows 200
-       and the eight sample books."
+---- REQUEST 2: Create valid book ------------------------------------
+DO:   Right-click "Library API QA" > New Request.
+      Type HTTP, Name  Create valid book , method POST (method
+      drop-down in the dialog), URL  http://127.0.0.1:5000/books
+      > Create.
+DO:   Click the Body tab under the URL. Where it says "No Body", open
+      the drop-down and choose JSON. Click inside the text box and type:
+TYPE: {"title": "Rivers of Data", "author": "Mira Castell", "isbn": "9781861972712", "published_year": 2019, "pages": 288}
+DO:   Check the JSON: no red marks, quotes only around text, no quotes
+      around 2019 and 288. (Bruno adds closing quotes and brackets by
+      itself - if you see doubled }} or "" delete the extra one.)
+DO:   >> > Assert:  res.status   eq   201  > Send > save icon.
+SAY:  "Now a new POST request to the same URL, called Create valid
+       book. In the Body tab I switch No Body to JSON and enter a
+       complete book: title, author, a valid ISBN-13, the year 2019 and
+       288 pages. I expect 201 Created, so that's the assertion. I click
+       Send. The response says 201 Created, and the new book has id 9.
+       I save it."
 
-REQUEST 2  Create valid book  (new, POST, same URL, 201)
-TYPE (Body, JSON):
-      {"title": "Rivers of Data", "author": "Mira Castell", "isbn": "9781861972712", "published_year": 2019, "pages": 288}
-SAY:  "New request, and I switch the method drop-down, left of the
-       URL, to POST. In the Body tab I choose JSON and enter a complete,
-       valid book. I expect 201, so that's the assertion. I click Send:
-       201 Created, with id 9."
+---- REQUEST 3: Duplicate ISBN  (clone) -------------------------------
+DO:   Right-click "Create valid book" in the sidebar > Clone.
+      Name  Duplicate ISBN  > Clone.
+DO:   >> > Assert: change the value 201 to 409 > Send > save icon.
+SAY:  "I right-click Create valid book and choose Clone, so the same
+       body is copied without retyping. I name it Duplicate ISBN and
+       change the expected status in the Assert tab to 409, because the
+       same ISBN must be rejected. I click Send: 409 Conflict, and the
+       response says ISBN already exists."
 
-REQUEST 3  Duplicate ISBN  (clone request 2, 409)
-SAY:  "I right-click Create valid book and choose Clone, so the body is
-       copied. In the Assert tab I change 201 to 409, because the same
-       ISBN must be rejected. Send: 409, and the response says
-       'ISBN already exists'."
+---- REQUEST 4: Missing author  (clone) -------------------------------
+DO:   Right-click "Create valid book" > Clone > Name  Missing author
+      > Clone.
+DO:   Body tab: delete exactly this part, including the comma and space
+      after it:   "author": "Mira Castell",
+DO:   Assert: 400 > Send > save icon.
+SAY:  "I clone Create valid book again and call it Missing author. In
+       the Body tab I delete the author field, to test that required
+       fields are enforced. I expect 400. Send: 400 Bad Request, and the
+       message says Missing fields: author."
 
-REQUEST 4  Missing author  (clone request 2, delete the author, 400)
-SAY:  "Clone again. In the Body tab I delete the author to test the
-       required fields, and expect 400. Send: 400, and the message
-       says 'Missing fields: author'."
+---- REQUEST 5: Bad ISBN  (clone) -------------------------------------
+DO:   Right-click "Create valid book" > Clone > Name  Bad ISBN  > Clone.
+DO:   Body tab: change the last digit of the ISBN from 2 to 3, so it
+      reads  9781861972713
+DO:   Assert: 400 > Send > save icon.
+SAY:  "Another clone, called Bad ISBN. In the Body tab I change the last
+       digit of the ISBN from 2 to 3, so the check digit is wrong. I
+       expect 400. Send: 400, and the message says Invalid ISBN-13."
 
-REQUEST 5  Bad ISBN  (clone request 2, last digit 2 -> 3, 400)
-SAY:  "Another clone. In the Body I change the last digit of the ISBN
-       from 2 to 3, so the check digit is wrong. Send: 400,
-       'Invalid ISBN-13'."
+---- REQUEST 6: Missing book  (clone) ---------------------------------
+DO:   Right-click "List books" > Clone > Name  Missing book  > Clone.
+DO:   In the URL box add /999 at the end:
+      http://127.0.0.1:5000/books/999
+DO:   Assert: 404 > Send > save icon.
+SAY:  "I clone List books and call it Missing book. In the URL box I add
+       slash 999 at the end, an id that doesn't exist. I expect 404.
+       Send: 404, Book not found. Before my change this request crashed
+       the server with a 500 error."
 
-REQUEST 6  Missing book  (clone request 1, URL ends /books/999, 404)
-SAY:  "I clone List books and change the end of the URL to 999, an id
-       that doesn't exist. Send: 404, 'Book not found'. Before my
-       change, this crashed with a 500."
+---- REQUEST 7: Update own ISBN  (clone) ------------------------------
+DO:   Right-click "Create valid book" > Clone > Name  Update own ISBN
+      > Clone.
+DO:   Change the method drop-down (left of the URL) from POST to PUT.
+DO:   In the URL box add /9 at the end:  http://127.0.0.1:5000/books/9
+      (9 = the id that request 2 returned; use that number.)
+DO:   Assert: 200 > Send > save icon.
+SAY:  "Now I test the update endpoint. I clone Create valid book and
+       call it Update own ISBN. I change the method drop-down on the
+       left of the URL from POST to PUT, and add slash 9 to the URL,
+       the book I just created. The body has the same ISBN the book
+       already has, so the update should be allowed: I expect 200.
+       Send: 200 OK."
 
-REQUEST 7  Update own ISBN  (clone request 2, method PUT, URL /books/9, 200)
-SAY:  "Now I test the update endpoint. I clone Create valid book,
-       change the method to PUT and the URL to slash books slash 9,
-       the book I just created. It keeps its own ISBN, so I expect 200.
-       Send: 200. The update accepts a book's own ISBN."
+---- REQUEST 8: Update to a taken ISBN  (clone) -----------------------
+DO:   Right-click "Update own ISBN" > Clone > Name  Update taken ISBN
+      > Clone.
+DO:   In the URL change the 9 at the end to 1:
+      http://127.0.0.1:5000/books/1
+DO:   Assert: 409 > Send > save icon.
+SAY:  "I clone that request and call it Update taken ISBN. In the URL I
+       change the 9 to 1. Book 1 would now take book 9's ISBN, which
+       must be blocked, so I expect 409. Send: 409, ISBN already
+       exists."
 
-REQUEST 8  Update to taken ISBN  (clone request 7, URL /books/1, 409)
-SAY:  "I clone that request and change the URL to book 1. Now book 1
-       would take book 9's ISBN, so I expect 409. Send: 409,
-       'ISBN already exists'."
+---- REQUEST 9: Update a missing book  (clone) ------------------------
+DO:   Right-click "Update own ISBN" > Clone > Name  Update missing book
+      > Clone.
+DO:   In the URL change the 9 to 999:  http://127.0.0.1:5000/books/999
+DO:   Assert: 404 > Send > save icon.
+SAY:  "One last clone, Update missing book, pointing the update at book
+       999, which doesn't exist. I expect 404. Send: 404, Book not
+       found. Create, read and update now all follow the same rules."
 
-REQUEST 9  Update missing book  (clone request 7, URL /books/999, 404)
-SAY:  "One more clone, pointing the update at book 999, which doesn't
-       exist. Send: 404, 'Book not found'. Create and update now
-       follow the same rules."
 DO:   Click the yellow button to minimize Bruno.
 SAY:  "I minimize Bruno before opening the next app."
+
+IF A REQUEST DOESN'T GIVE THE EXPECTED CODE
+| You get                  | Cause                         | Fix                             |
+| Connection refused       | API not running               | VS Code > Run app.py            |
+| SSL / EPROTO error       | URL starts with https         | Change to http                  |
+| 415 Unsupported Media    | Body not set to JSON          | Body tab > No Body > JSON       |
+| 400 on Create valid book | JSON typo, or year/pages in   | Fix the body; numbers have no   |
+|                          | quotes                        | quotes                          |
+| 409 on Create valid book | DB not fresh (book exists)    | Delete books.db, run app again  |
+| 500                      | Typo in app.py                | Read the terminal error in VS   |
+|                          |                               | Code, fix the line, restart     |
+| Assert shows red/failed  | Wrong value in Assert row     | Check Expr res.status, eq, code |
+During recording, say what went wrong and fix it calmly - it counts as
+narrated work.
 
 
 =====================================================================
