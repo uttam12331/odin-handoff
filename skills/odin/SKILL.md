@@ -150,3 +150,4 @@ rule:
 - 2026-10-23 – TaskRecorder 2.4.4 needs no login; separate Mac user optional – Studio
 - 2026-10-26 – Narration counted by reviewer, no coding exception; reading code symbols ≠ narration;
   coding typing limit 35%; overlap max 30 s; use Run full AutoQC after re-record – 3kuwe593 review
+- 2026-10-28 – 3kuwe593 second recording: narration fixed but typing 38.02% > 35% (Required finding). Cut typing: run pytest/app with mouse (VS Code Testing panel / Run button), Bruno Clone, DB Browser Filter instead of typed SQL, and add real mouse-driven verification (Bruno PUT/update requests, Runner) – AutoQC check 19
