@@ -10,8 +10,8 @@ Learn the flow and say the lines in your own words. Don't read them.
 WHAT CHANGED IN v3 (second recording measured typing at 38%, limit 35%)
 - The test file is shorter: one table of six cases instead of three
   blocks.
-- pytest now runs from VS Code's Testing panel (mouse), not a typed
-  command.
+- pytest runs with the short command  python -m pytest -v  (the
+  terminal is already in the analysis environment).
 - The API now starts with VS Code's Run button (mouse), not a typed
   command.
 - DB Browser checks use column sorting (mouse) instead of a typed SQL
@@ -64,11 +64,11 @@ RESET THE PROJECT
 ONE-TIME VS CODE SETUP (do it once; it stays set)
 4. Bottom bar: "Screen Reader Optimized" must NOT be shown. If it is,
    click it and choose No.
-5. Bottom right must show the "analysis" Python. If not, click the
-   Python version and choose ~/venvs/analysis/bin/python.
-6. Testing panel: click the beaker icon in the left bar, then
-   "Configure Python Tests", then "pytest", then "." (the root
-   folder). The panel will be empty until test_app.py exists.
+5. Bottom right must show "analysis". If not, click the Python version
+   > Enter Interpreter Path > type the FULL path
+   /Users/rec.mac/venvs/analysis/bin/python  (~ does not work).
+6. Open a new terminal (Terminal > New Terminal). Its line must start
+   with (analysis). If it doesn't, check step 5.
 
 APPS
 7. VS Code: app.py open at line 1, Explorer visible, Fill, minimized.
@@ -247,17 +247,15 @@ SAY:  "Line 9 is a table of six cases: the valid book should be
        compares the status code."
 TYPE:     for change, code in [({}, 201), ({}, 409), ({'title': ''}, 400), ({'isbn': '9780306406158'}, 400), ({'published_year': 3000}, 400), ({'pages': 0}, 400)]:
               assert c.post('/books', json={**GOOD, **change}).status_code == code
-DO:   Choose File > Save.
-DO:   Click the beaker icon in the left bar to open the Testing panel.
-      Click the Refresh Tests icon (circular arrow) at the top of the
-      panel, then the Run Tests icon (double triangle).
-SAY:  "I'm saving the file and opening the Testing panel with the
-       beaker icon in the left bar. I click Refresh so VS Code finds
-       the new test, then Run Tests at the top of the panel."
-DO:   Expand the test tree and point at the green tick next to
-      test_rules.
-SAY:  "test_rules has a green tick, so all six cases pass: create,
-       duplicate, and the four invalid books."
+DO:   Choose File > Save, then click inside the Terminal at the bottom.
+      The terminal line must start with (analysis).
+SAY:  "I'm saving the test file and clicking in the terminal at the
+       bottom of VS Code. I'll run pytest in verbose mode, so each
+       test result is listed."
+TYPE: python -m pytest -v
+DO:   Press Enter and point at PASSED.
+SAY:  "The terminal shows test_rules PASSED in green, so all six cases
+       pass: create, duplicate, and the four invalid books."
 
 
 =====================================================================
