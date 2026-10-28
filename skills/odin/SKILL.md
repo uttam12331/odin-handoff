@@ -44,7 +44,7 @@ update this file (see "Adding new rules").
   for sign-in it's an old version. Permissions Accessibility/Screen Recording/Microphone all green
   (per user). Built-in display, mic Standard.
 - VS Code: turn OFF "Screen Reader Optimized" (it disables autocomplete); uninstall Copilot/AI chat.
-  Homebrew Python 3.15 blocks pip → use venv `~/venvs/analysis` (`~/venvs/analysis/bin/python`).
+  Homebrew Python 3.15 blocks pip → use venv `~/venvs/analysis`. In VS Code Enter Interpreter Path use the FULL path `/Users/rec.mac/venvs/analysis/bin/python` (`~` is rejected); bottom bar must show "analysis" or the Run button / Testing panel fail with No module named flask.
 - DB Browser: close Edit Database Cell / Plot / Remote panels; turn off auto-updates.
 - DBeaver: close AI Chat, never click "AI".
 
