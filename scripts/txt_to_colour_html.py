@@ -33,9 +33,9 @@ while i < len(lines):
         out.append('<div class="gap"></div>')
         i += 1
         continue
-    m = re.match(r"^(SAY|TYPE|DO|BEFORE|WHILE TYPING)(\s*\([^)]*\))?\s*:\s?(.*)$", s)
+    m = re.match(r"^(SAY AFTER|SAY|TYPE|DO|BEFORE|WHILE TYPING)(\s*\([^)]*\))?\s*:\s?(.*)$", s)
     if m:
-        kind = {"before": "say", "while typing": "say"}.get(m.group(1).lower(), m.group(1).lower())
+        kind = {"before": "say", "while typing": "say", "say after": "say"}.get(m.group(1).lower(), m.group(1).lower())
         label = m.group(1) + (m.group(2) or "")
         body = html.escape(m.group(3))
         out.append(f'<div class="{kind}"><span class="lbl">{html.escape(label)}</span>'
