@@ -1,11 +1,23 @@
 =====================================================================
- ODIN TASK 3kuwe593 - LIBRARY API VALIDATION - RECORDING SCRIPT v3
+ ODIN TASK 3kuwe593 - LIBRARY API VALIDATION - RECORDING SCRIPT v4
  Apps: Visual Studio Code, Bruno, DB Browser for SQLite
  Everything is done in [REC.MAC]. Target length: 26-30 minutes.
 =====================================================================
 
 KEEP THIS ON YOUR PHONE OR PAPER - NEVER ON THE MAC SCREEN.
 Learn the flow and say the lines in your own words. Don't read them.
+
+WHAT CHANGED IN v4 (third recording: narration 53% - limit 70%)
+AutoQC heard the SAME sentence "Now I will click at the end of line 8"
+at 8 different moments while code was being typed. Your real words
+during typing were NOT captured (too quiet, or the same filler line
+was repeated). v4 fixes this:
+- SPEAK FIRST, THEN TYPE: say each BEFORE line out loud at normal
+  volume with your hands off the keyboard, then type, then stop and
+  say the AFTER line. Never mumble while typing.
+- Every step has its OWN sentence with its OWN line number. Never
+  reuse "click at the end of line 8".
+- Mic check before recording and a listen check after recording.
 
 WHAT CHANGED IN v3 (second recording measured typing at 38%, limit 35%)
 - The test file is shorter: one table of six cases instead of three
@@ -43,6 +55,11 @@ Typing is about 7 minutes of the total, roughly 25%.
    button) before you open the next one.
 4. SILENCE. Never stay quiet or still for more than 45 seconds. Pause
    about one second after each click.
+5. VOICE. Talk at normal volume, facing the Mac, the whole time -
+   especially while coding. Say the BEFORE line BEFORE your hands go
+   to the keyboard, and the AFTER line after you stop typing. Never
+   repeat one stock sentence: each step's sentence is different and
+   names its own line number.
 If you make a typo, say it once and fix it: "On line 14 I'm fixing a
 typo in the message."
 
@@ -80,6 +97,17 @@ APPS
 11. Clock shows seconds, Dock on the right, Accessibility Inspector dot
     visible, Do Not Disturb on, Insightful running and minimized,
     one UI element changed since the last recording.
+
+MIC CHECK (every time, 2 minutes)
+12. Use ONE microphone for the whole recording (built-in, or one
+    headset - don't switch). Sit close, face the screen.
+13. In TaskRecorder, speak a sentence: the mic bar must go clearly into
+    the green, not just flicker.
+14. Make a 30-second test recording: type a line in VS Code WHILE
+    talking at normal volume. Stop, open the test video.mp4 and listen.
+    If the typing part is quiet or muffled, move closer / raise the
+    input volume (System Settings > Sound > Input > Input volume
+    about 75%) and test again. Delete the test recording.
 
 
 =====================================================================
@@ -120,6 +148,13 @@ SAY:  "So here are my rules. All five fields are required. The ISBN
 =====================================================================
  2. ADD VALIDATION  (2:20 - 8:20)                         VS Code
 =====================================================================
+PATTERN FOR EVERY CODE BLOCK BELOW
+  1. Hands OFF the keyboard. Say the first SAY line at normal volume.
+  2. Type the block.
+  3. STOP typing. Say the AFTER line, pointing at the new lines.
+  The sentences below are all different on purpose - each names its
+  own line number. Don't swap in a generic sentence.
+
 --- 2.1  LINE 3 ---------------------------------------------------
 DO:   Click at the end of line 2, then press Enter.
 SAY:  "I'm clicking at the end of line 2 and pressing Enter. On line 3
@@ -134,7 +169,7 @@ SAY:  "Now I click at the end of line 6, below the database name, and
        isbn_ok, so the API can reject ISBNs that were mistyped."
 TYPE: def isbn_ok(s):
           return isinstance(s, str) and len(s) == 13 and s.isdigit() and sum(int(c) * (3 if i % 2 else 1) for i, c in enumerate(s)) % 10 == 0
-SAY (while typing):
+SAY AFTER (stop typing, then say):
       "It only accepts text with exactly thirteen digits. Then it
        multiplies the digits by one and three in turn and adds them
        up. A real ISBN-13 always gives a multiple of ten, so a wrong
@@ -150,24 +185,30 @@ TYPE: def check(d, conn, book_id=0):
           missing = [f for f in ['title', 'author', 'isbn', 'published_year', 'pages'] if not d.get(f)]
           if missing:
               return 'Missing fields: ' + ', '.join(missing), 400
-SAY (while typing):
+SAY AFTER (stop typing, then say):
       "Line 12 collects every required field that is missing or
        empty. Line 14 returns all of them in one message with status
        400, so QA sees every problem at once."
+SAY:  "Next, on line 15, I'm adding the ISBN rule inside check, so a
+       mistyped ISBN is rejected."
 TYPE:     if not isbn_ok(d['isbn']):
               return 'Invalid ISBN-13', 400
 SAY:  "Lines 15 and 16 reuse the ISBN function. A bad ISBN is also a
        400."
+SAY:  "On line 17 I'm adding the year and page-count rule, so books
+       with an impossible year or zero pages are refused."
 TYPE:     y, p = d['published_year'], d['pages']
           if type(y) is not int or type(p) is not int or not 1450 <= y <= date.today().year or p < 1:
               return 'Invalid year or pages', 400
-SAY (while typing):
+SAY AFTER (stop typing, then say):
       "Line 17 reads the year and the page count. Line 18 checks that
        both are whole numbers, that the year is between 1450 and this
        year, and that there is at least one page."
+SAY:  "Last in check, on line 20, I'm adding the duplicate check that
+       looks up the ISBN in the database."
 TYPE:     if conn.execute('SELECT 1 FROM books WHERE isbn = ? AND id != ?', (d['isbn'], book_id)).fetchone():
               return 'ISBN already exists', 409
-SAY (while typing):
+SAY AFTER (stop typing, then say):
       "Lines 20 and 21 look for another book with the same ISBN. If
        one exists, that's a 409 conflict. The book's own id is left
        out, so updating a book doesn't clash with itself."
@@ -513,6 +554,16 @@ Topology: Visual Studio Code (MODIFY) -> Bruno (CREATE) -> DB Browser for SQLite
 
 
 =====================================================================
+ AFTER RECORDING - LISTEN CHECK BEFORE UPLOADING
+=====================================================================
+Open the new video.mp4 and listen to 3 coding moments (about 5:00,
+10:00 and the test file part). You must clearly hear yourself saying
+WHAT you add, WHERE (line number) and WHY. If it is quiet, muffled or
+the same sentence repeats, fix the mic and record again BEFORE
+uploading - AutoQC will fail it otherwise.
+
+
+=====================================================================
  AFTER RECORDING - DELIVERABLES.ZIP
 =====================================================================
 input 1        <- original app.py + requirements.txt
@@ -525,4 +576,4 @@ In Studio replace video.mp4, the recording zip and deliverables.zip,
 keep Metadata.rtf, then click Run full AutoQC.
 
 Final note:
-Re-recorded again to reduce typing: tests and the server are now run from VS Code with the mouse, the database is checked by sorting columns instead of a typed query, the test file is shorter, and more of the verification (including the update endpoint) is done by cloning requests in Bruno. The starting Flask project (input 1) was AI-generated with Gemini before recording.
+Re-recorded with continuous, clearly audible narration during coding (each step states what is added, the line number and why) and a mic check before recording. Typing was reduced: tests and the server are now run from VS Code with the mouse, the database is checked by sorting columns instead of a typed query, the test file is shorter, and more of the verification (including the update endpoint) is done by cloning requests in Bruno. The starting Flask project (input 1) was AI-generated with Gemini before recording.
